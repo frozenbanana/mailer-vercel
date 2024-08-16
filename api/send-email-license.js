@@ -22,6 +22,13 @@ export default async (req, res) => {
         return res.status(400).json({ message: 'Missing required fields' });
     }
 
+    const formData = req.body.formData;
+    const name = formData.name;
+    const email = formData.email;
+    const formDataString = JSON.stringify(formData);
+
+    console.log("Received form data:", formDataString);
+    
     try {
         const response = await fetch('https://api.brevo.com/v3/smtp/email', {
             method: 'POST',

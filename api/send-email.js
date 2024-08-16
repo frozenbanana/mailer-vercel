@@ -33,8 +33,8 @@ export default async (req, res) => {
             body: JSON.stringify({
                 sender: { name: "Hejbit by MetaProvide", email: "tech@metaprovide.org" },
                 to: [{ email, name }],
-                subject: `New Contact Form Submission from ${name}`,
-                htmlContent: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong><br>${company ?? ''}</p>`,
+                subject: `Thank you ${name} for reaching out`,
+                htmlContent: `<p>We have received your message. We will get back to you shortly. You have sent us the following information:</p><p>Name: ${name}</p><p>Email: ${email}</p><p>Company: ${company}</p>`,
             }),
         });
 
