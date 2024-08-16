@@ -5,9 +5,9 @@ export default async (req, res) => {
         return res.status(405).json({ message: 'Only POST requests allowed' });
     }
 
-    const { name, email, message } = req.body;
+    const { name, email, company } = req.body;
 
-    if (!name || !email || !message) {
+    if (!name || !email) {
         return res.status(400).json({ message: 'Missing required fields' });
     }
 
@@ -22,7 +22,7 @@ export default async (req, res) => {
                 sender: { name: "Hejbit by MetaProvide", email: "tech@metaprovide.org" },
                 to: [{ email, name }],
                 subject: `New Contact Form Submission from ${name}`,
-                htmlContent: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong><br>${message}</p>`,
+                htmlContent: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong><br>${company ?? ''}</p>`,
             }),
         });
 
