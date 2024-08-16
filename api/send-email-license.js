@@ -16,19 +16,21 @@ export default async (req, res) => {
         return res.status(405).json({ message: 'Only POST requests allowed' });
     }
 
+    console.log(req.body);
+
+    // Extracting fields directly from req.body
     const { name, email } = req.body;
 
     if (!name || !email) {
         return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    const formData = req.body.formData;
-    const name = formData.name;
-    const email = formData.email;
-    const formDataString = JSON.stringify(formData);
+    // Convert form data to a readable string
+    const formDataString = Object.entries(req.body)
+        .map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`)
+        .join('');
 
     console.log("Received form data:", formDataString);
-    
     try {
         const response = await fetch('https://api.brevo.com/v3/smtp/email', {
             method: 'POST',
