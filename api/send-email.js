@@ -24,23 +24,38 @@ export default async (req, res) => {
     }
 
     try {
-        const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        const toUserResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'api-key': process.env.BREVO_API_KEY, // Use environment variable for security
             },
             body: JSON.stringify({
-                sender: { name: "Hejbit by MetaProvide", email: "tech@metaprovide.org" },
+                sender: { name: "Hejbit by MetaProvide", email: "home@metaprovide.org" },
                 to: [{ email, name }],
                 subject: `Thank you ${name} for reaching out`,
                 htmlContent: `<p>We have received your message. We will get back to you shortly. You have sent us the following information:</p><p>Name: ${name}</p><p>Email: ${email}</p><p>Company: ${company}</p>`,
             }),
         });
 
-        const data = await response.json();
+        const toMetaProvideResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'api-key': process.env.BREVO_API_KEY, // Use environment variable for security
+            },
+            body: JSON.stringify({
+                sender: { name, email },
+                to: [{ email: "home@metaprovide.org", name: "Hejbit by MetaProvide" }],
+                subject: `New user has reached out: ${name}`,
+                htmlContent: `<p>They have sent us the following information:</p><p>Name: ${name}</p><p>Email: ${email}</p><p>Company: ${company}</p>`,
+            }),
+        });
 
-        if (response.ok) {
+        const userData = await toUserResponse.json();
+        const metaprovideData = await toMetaProvideResponse.json();
+
+        if (userData.ok && metaprovideData.ok) {
             return res.status(200).json({ message: 'Email sent successfully' });
         } else {
             return res.status(500).json({ message: 'Failed to send email', error: data });
