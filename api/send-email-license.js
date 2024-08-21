@@ -29,7 +29,7 @@ export default async (req, res) => {
         .join('');
 
     try {
-        const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        const customerResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
