@@ -38,7 +38,7 @@ export default async (req, res) => {
             body: JSON.stringify({
                 sender: { name: "Hejbit by MetaProvide", email: "license@hejbit.com" },
                 to: [{ email, name }],
-                subject: `Thank you for requesting a trail license!`,
+                subject: `Thank you for requesting a trial license!`,
               htmlContent: `<h1>Hello ${name}</h1><p>Thank you for reaching out. We will get back to you shortly.`,
               params: {
                 name: name,
